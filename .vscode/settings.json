@@ -1,0 +1,7 @@
+{
+    "idf.currentSetup": "/home/daniel/.espressif/v6.0.1/esp-idf",
+    "cmake.sourceDirectory": "/home/daniel/Escritorio/iot-energy-monitor/firmware/esp32_energy_monitor",
+    "idf.openOcdConfigs": [
+        "board/esp32-wrover-kit-3.3v.cfg"
+    ]
+}
