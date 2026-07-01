@@ -1,15 +1,12 @@
 ## Terminado
-
-
+- ESP32 publica datos.
+- MQTT funcionando.
+- Broker Mosquitto instalado.
 
 ## En progreso
-
-
+- Base de datos SQLite.
 
 ## Pendiente a futuro
 
 - FastAPI.
-- Base de datos PostgreSQL.
-- MQTT funcionando.
-- Broker Mosquitto instalado.
-- ESP32 publica datos.
+- Migracion de SQLite a PostgreSQL.
