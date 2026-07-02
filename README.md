@@ -36,7 +36,7 @@ MQTT EXPLORER (VISUALIZACIÓN)
 
 # MQTT Topics
 
- - esp32/mi_topico (ejemplo momentaneo)
+ - esp32/sensor_temperatura: temperatura del sensor.
 
 ## Ejecución
 

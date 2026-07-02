@@ -1,7 +1,7 @@
-#include <stdio.h>
-#include <stdint.h>
 #include <stddef.h>
+#include <stdio.h>
 #include <string.h>
+#include <time.h>
 #include "esp_wifi.h"
 #include "esp_system.h"
 #include "nvs_flash.h"
@@ -11,6 +11,8 @@
 #include "mqtt_client.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
+
+#include "temp_sensor.h"
 
 static const char *TAG = "MQTT_PUB";
 static esp_mqtt_client_handle_t client;
@@ -53,12 +55,12 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
 }
 
 void mqtt_publish_task(void *pvParameters) {
-    int contador = 0;
     char payload[64];
 
     while (1) {
-        sprintf(payload, "Hola desde ESP32 nativo, conteo: %d", contador++);
-        esp_mqtt_client_publish(client, "esp32/mi_topico", payload, 0, 1, 0);
+        get_data_temperature_sensor();
+        sprintf(payload, "{\"temperature\": \"%.2f\", \"timestamp\": \"%s\"}", datos.temperature, datos.tiempo_actual);
+        esp_mqtt_client_publish(client, "esp32/sensor_temperatura", payload, 0, 1, 0);
         vTaskDelay(pdMS_TO_TICKS(5000)); 
     }
 }
@@ -95,11 +97,16 @@ void app_main(void) {
     }
     ESP_ERROR_CHECK(ret);
 
+    char mqtt_broker_uri[128];
+    sprintf(mqtt_broker_uri, "mqtt://%s:%d", CONFIG_MQTT_BROKER, CONFIG_MQTT_BROKER_PORT);
+
     // Configurar cliente MQTT (pero no lo iniciamos todavía)
     esp_mqtt_client_config_t mqtt_cfg = {
-        .broker.address.uri = CONFIG_MQTT_BROKER_URI,
+        .broker.address.uri = mqtt_broker_uri,
     };
+
     client = esp_mqtt_client_init(&mqtt_cfg);
+
     if (client == NULL) {
         ESP_LOGE("MQTT", "¡Error al inicializar el cliente MQTT!");
     }

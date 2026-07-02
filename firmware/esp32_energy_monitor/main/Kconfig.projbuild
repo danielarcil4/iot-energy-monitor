@@ -12,10 +12,16 @@ menu "Configuración de conexión"
         help
             Introduce la contraseña de la red Wi-Fi.
     
-    config MQTT_BROKER_URI
+    config MQTT_BROKER
         string "Dirección del broker MQTT"
-        default "mqtt://broker_por_defecto:port_por_defecto"
+        default "broker_por_defecto"
         help
             Introduce la dirección del broker MQTT al que se conectará el ESP32.
+
+    config MQTT_BROKER_PORT
+        int "Puerto del broker MQTT"
+        default 1883
+        help
+            Introduce el puerto del broker MQTT al que se conectará el ESP32.
 
 endmenu
