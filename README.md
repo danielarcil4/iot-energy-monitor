@@ -16,7 +16,11 @@ ESP32
  ↓
 MQTT
  ↓
-MQTT EXPLORER (VISUALIZACIÓN)
+Mosquitto
+ ↓
+Backend
+ ↓
+SQLite
 
 ## Requisitos
 
