@@ -4,11 +4,11 @@
 - Broker Mosquitto instalado.
 - Conexión con SQLite
 - Guardar información de un sensor 
+- Guardar información de varios sensores.
 
 ## En progreso
-- Guardar información de diferentes sensores.
+- Crear uno o dos sensores más.
 
 ## Pendiente a futuro
-
-- FastAPI.
+- FastAPI 
 - Migracion de SQLite a PostgreSQL.

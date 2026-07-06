@@ -2,13 +2,13 @@
 from typing import Any
 import paho.mqtt.client as mqtt
 from database import save_reading, parse_json_payload
-from config import MQTT_BROKER_HOST, MQTT_BROKER_PORT, MQTT_TOPIC
+from config import MQTT_BROKER_HOST, MQTT_BROKER_PORT, MQTT_TOPICS
 
 def on_connect(client: mqtt.Client, userdata: Any, flags: dict[str, Any], rc: int) -> None:
     if rc == 0:
         print(f"Conectado al broker MQTT en {MQTT_BROKER_HOST}:{MQTT_BROKER_PORT}")
-        client.subscribe(MQTT_TOPIC)
-        print(f"Escuchando mensajes en el topico: {MQTT_TOPIC}")
+        client.subscribe([(topic, 0) for topic in MQTT_TOPICS])
+        print(f"Escuchando mensajes en los topicos: {', '.join(MQTT_TOPICS)}")
         return
 
     print(f"No se pudo conectar al broker MQTT. Codigo de retorno: {rc}")
@@ -25,8 +25,10 @@ def on_message(client: mqtt.Client, userdata: Any, message: mqtt.MQTTMessage) ->
     save_reading(reading)
     print(
         "Lectura guardada: "
-        f"temperatura={reading.temperature:.2f}, "
-        f"timestamp={reading.timestamp}"
+        f"Tipo de sensor: {reading.type_sensor}, "
+        f"Valor: {reading.data}, "
+        f"Unidad: {reading.unit}, "
+        f"Timestamp: {reading.timestamp}"
     )
 
 

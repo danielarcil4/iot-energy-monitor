@@ -1,21 +1,27 @@
 #include "temp_sensor.h"
 #include "esp_random.h"
-#include <time.h>
 
-datos_t datos; // Definición de la variable global
+static esp_err_t temperature_sensor_read(sensor_t *sensor, sensor_data_t *data) {
+    (void)sensor;
 
-void get_time(char *time_buffer) {
-    time_t now = time(NULL);
-    struct tm timeinfo;
+    data->value = esp_random() % 40; // Genera un número aleatorio entre 0 y 40
+    get_time(data->timestamp);
 
-    localtime_r(&now, &timeinfo);
-
-    strftime(time_buffer, SIZE_BUFFER_TIME, "%H:%M:%S", &timeinfo); 
+    return ESP_OK;
 }
 
-void get_data_temperature_sensor(void) {
-    datos.temperature = esp_random() % 40; // Genera un número aleatorio entre 0 y 40
-    get_time(datos.tiempo_actual); // Obtiene la hora actual
-}
+sensor_t temperature_sensor_habitacion_1 = {
+    .id = 1,
+    .type = SENSOR_TYPE_TEMPERATURE,
+    .unit = SENSOR_UNIT_CELSIUS,
+    .mqtt_topic = "esp32/sensor_temperatura/habitacion_1",
+    .read = temperature_sensor_read,
+};
 
-
+sensor_t temperature_sensor_habitacion_2 = {
+    .id = 2,
+    .type = SENSOR_TYPE_TEMPERATURE,
+    .unit = SENSOR_UNIT_CELSIUS,
+    .mqtt_topic = "esp32/sensor_temperatura/habitacion_2",
+    .read = temperature_sensor_read,
+};

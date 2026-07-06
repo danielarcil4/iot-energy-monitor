@@ -2,7 +2,7 @@
 import json
 import sqlite3
 from typing import Any
-from models import TemperatureSensor
+from models import Sensor
 from config import DATABASE_PATH, os
 
 def initialize_database(database_path: str = DATABASE_PATH) -> None:
@@ -15,39 +15,40 @@ def initialize_database(database_path: str = DATABASE_PATH) -> None:
             """
             CREATE TABLE IF NOT EXISTS sensor_data (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                temperature REAL,
-                humidity REAL,
+                type_sensor TEXT,
+                data REAL,
+                unit TEXT,
                 timestamp TEXT
             )
             """
         )
         conn.commit()
 
-def save_reading(reading: TemperatureSensor, database_path: str = DATABASE_PATH) -> None:
+def save_reading(reading: Sensor, database_path: str = DATABASE_PATH) -> None:
     with sqlite3.connect(database_path) as conn:
         conn.execute(
             """
-            INSERT INTO sensor_data (temperature, timestamp)
-            VALUES (?, ?)
+            INSERT INTO sensor_data (type_sensor, data, unit, timestamp)
+            VALUES (?, ?, ?, ?)
             """,
-            (reading.temperature, reading.timestamp),
+            (reading.type_sensor, reading.data, reading.unit, reading.timestamp),
         )
         conn.commit()
 
-def parse_json_payload(payload: str) -> TemperatureSensor | None:
+def parse_json_payload(payload: str) -> Sensor | None:
     try:
         data: dict[str, Any] = json.loads(payload)
     except json.JSONDecodeError:
         return None
-    print(f"Datos recibidos: {data}")
-    temperature = data.get("temperature", data.get("temperatura"))
-    print(f"Temperatura extraida: {data['temperature']}")
-    if temperature is None:
+    type_sensor = data.get("sensor")
+    if type_sensor is None:
         return None
 
     try:
-        return TemperatureSensor(
-            temperature=float(temperature),
+        return Sensor(
+            type_sensor=str(data.get("sensor")),
+            data=float(data.get("value")),
+            unit=str(data.get("unit")),
             timestamp=str(data.get("timestamp")),
         )
     except (TypeError, ValueError):

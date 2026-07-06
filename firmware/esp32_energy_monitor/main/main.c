@@ -12,7 +12,7 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 
-#include "temp_sensor.h"
+#include "sensor.h"
 
 static const char *TAG = "MQTT_PUB";
 static esp_mqtt_client_handle_t client;
@@ -55,12 +55,29 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
 }
 
 void mqtt_publish_task(void *pvParameters) {
-    char payload[64];
+    char payload[128];
+    sensor_data_t data;
 
     while (1) {
-        get_data_temperature_sensor();
-        sprintf(payload, "{\"temperature\": \"%.2f\", \"timestamp\": \"%s\"}", datos.temperature, datos.tiempo_actual);
-        esp_mqtt_client_publish(client, "esp32/sensor_temperatura", payload, 0, 1, 0);
+        for (size_t i = 0; i < sensors_count; i++) {
+            sensor_t *sensor = sensors[i];
+
+            if (sensor->read(sensor, &data) != ESP_OK) {
+                ESP_LOGE(TAG, "Error leyendo sensor: %s", sensor_type_to_string(sensor->type));
+                continue;
+            }
+
+            snprintf(payload, sizeof(payload),
+                    "{\"id\": %d, \"type\": \"%s\", \"value\": \"%.2f\", \"unit\": \"%s\", \"timestamp\": \"%s\"}",
+                    sensor->id,
+                    sensor_type_to_string(sensor->type),
+                    data.value,
+                    sensor_unit_to_string(sensor->unit),
+                    data.timestamp); 
+
+            esp_mqtt_client_publish(client, sensor->mqtt_topic, payload, 0, 1, 0);
+        }
+
         vTaskDelay(pdMS_TO_TICKS(5000)); 
     }
 }
