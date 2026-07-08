@@ -4,6 +4,8 @@
 #include "esp_event.h"
 #include "esp_netif.h"
 #include "sensor.h"
+#include "device.h"
+
 #include <stdio.h>
 #include <time.h>
 
@@ -19,7 +21,7 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
     switch ((esp_mqtt_event_id_t)event_id) {
         case MQTT_EVENT_CONNECTED:
             ESP_LOGI(TAG, "Conectado al bróker MQTT");
-            xTaskCreate(mqtt_publish_task, "mqtt_publish_task", 4096, NULL, 5, NULL);
+            xTaskCreate(mqtt_publish_task, "mqtt_publish_task", 4096,NULL, 5, NULL);
             break;
         case MQTT_EVENT_DISCONNECTED:
             ESP_LOGI(TAG, "Desconectado del bróker MQTT");
@@ -40,7 +42,8 @@ static void wifi_ip_handler(void *handler_args, esp_event_base_t base, int32_t e
 }
 
 void mqtt_publish_task(void *pvParameters) {
-    char payload[128];
+    const data_device_t *dispositivo = get_data_device();
+    char payload[256];
     sensor_data_t data;
 
     while (1) {
@@ -51,9 +54,10 @@ void mqtt_publish_task(void *pvParameters) {
                 ESP_LOGE(TAG, "Error leyendo sensor: %s", sensor_type_to_string(sensor->type));
                 continue;
             }
-
             snprintf(payload, sizeof(payload),
-                    "{\"id_sensor\": %d, \"type\": \"%s\", \"value\": \"%.2f\", \"unit\": \"%s\", \"timestamp\": \"%s\"}",
+                    "{\"id_dispositivo\": \"%02X:%02X:%02X:%02X:%02X:%02X\", \"dispositivo\": \"%s\",\"id_sensor\": %d, \"type\": \"%s\", \"value\": \"%.2f\", \"unit\": \"%s\", \"timestamp\": \"%s\"}",
+                    dispositivo->id[0], dispositivo->id[1], dispositivo->id[2],dispositivo->id[3], dispositivo->id[4], dispositivo->id[5], 
+                    dispositivo->name,
                     sensor->id_sensor,
                     sensor_type_to_string(sensor->type),
                     data.value,
@@ -86,5 +90,6 @@ void mqtt_init(void){
     ESP_ERROR_CHECK(esp_mqtt_client_register_event(client, MQTT_EVENT_PUBLISHED, mqtt_event_handler, NULL));
 
     ESP_ERROR_CHECK(esp_event_handler_register(IP_EVENT, IP_EVENT_STA_GOT_IP, &wifi_ip_handler, NULL));
+
 }
 

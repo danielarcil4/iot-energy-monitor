@@ -1,0 +1,15 @@
+menu "Configuración de wifi"
+
+    config WIFI_SSID
+        string "Nombre de la red Wi-Fi (SSID)"
+        default "tu_ssid_por_defecto"
+        help
+            Introduce el nombre de la red Wi-Fi a la que se conectará el ESP32.
+
+    config WIFI_PASS
+        string "Contraseña del Wi-Fi"
+        default "tu_password_por_defecto"
+        help
+            Introduce la contraseña de la red Wi-Fi.
+
+endmenu

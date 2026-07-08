@@ -1,0 +1,9 @@
+menu "Configuración de dispositivo"
+    
+    config NAME
+        string "Nombre del dispositivo"
+        default "nombre_del_dispositivo"
+        help
+            Introduce el nombre del dispositivo.
+
+endmenu

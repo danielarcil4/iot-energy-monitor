@@ -1,6 +1,7 @@
 idf_component_register(SRCS "mqtt.c" 
                     INCLUDE_DIRS "."
-                    PRIV_REQUIRES mqtt
+                    PRIV_REQUIRES device
+                                  mqtt
                                   lib
                                   esp_event
                                   esp_netif)

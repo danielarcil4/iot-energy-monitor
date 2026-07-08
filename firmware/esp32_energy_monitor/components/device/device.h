@@ -2,8 +2,11 @@
 #define DEVICE_H
 #include <stdint.h>
 
+typedef struct {
+    uint8_t id[6];  // mac del dispositivo
+    char name[32];  // nombre del dispositivo
+} data_device_t;    // estructura para almacenar los datos de un dispositivo
 
-uint8_t device_get_id(void);       // Función para obtener el ID del dispositivo
-const char* device_get_name(void); // Función para obtener el nombre del dispositivo
+const data_device_t* get_data_device(void); // devuelve la estructura con los datos del dispositivo 
 
 #endif // DEVICE_H
