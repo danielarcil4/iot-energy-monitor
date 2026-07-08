@@ -1,11 +1,42 @@
-# Levanta FastAPI.
-from database import initialize_database
-from mqtt_client import build_client
-from config import MQTT_BROKER_HOST, MQTT_BROKER_PORT
+from fastapi import FastAPI
+from contextlib import asynccontextmanager
+from .mqtt_client import build_client
+from .database import initialize_database, get_measurements, get_latest_measurement
+from .config import MQTT_BROKER_HOST, MQTT_BROKER_PORT
 
-# Inicializa la base de datos y el cliente MQTT
-initialize_database()
-client = build_client()
-client.connect(MQTT_BROKER_HOST, MQTT_BROKER_PORT, keepalive=60)
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    initialize_database()
 
-client.loop_forever()
+    mqtt_client = build_client()
+    mqtt_client.connect(MQTT_BROKER_HOST, MQTT_BROKER_PORT, keepalive=60)
+    mqtt_client.loop_start()
+    app.state.mqtt_client = mqtt_client
+
+    yield
+
+    mqtt_client.loop_stop()
+    mqtt_client.disconnect()
+
+
+app = FastAPI(lifespan=lifespan)
+
+
+@app.get("/")
+def read_root():
+    return {"message": "Hello, FastAPI!"}
+
+@app.get("/measurements")
+def read_measurements():
+    measurements = get_measurements()
+    return {"message": measurements}
+
+@app.get("/measurements/latest")
+def read_latest_measurements():
+    latest_measurement = get_latest_measurement()
+    return {"message": latest_measurement}
+
+@app.get("/devices")
+def read_devices():
+    # Verify life of devices based on publiher
+    return {"message": "List of devices"}

@@ -1,8 +1,5 @@
 idf_component_register(SRCS "main.c"
-                    INCLUDE_DIRS "."
-                    PRIV_REQUIRES lib
-                                  esp_event
-                                  esp_netif
-                                  esp_wifi
-                                  mqtt
+                    INCLUDE_DIRS "." 
+                    PRIV_REQUIRES wifi
+                                  mqtt_service
                                   nvs_flash)

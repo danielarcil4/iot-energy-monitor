@@ -11,7 +11,7 @@ static esp_err_t temperature_sensor_read(sensor_t *sensor, sensor_data_t *data) 
 }
 
 sensor_t temperature_sensor_habitacion_1 = {
-    .id = 1,
+    .id_sensor = 1,
     .type = SENSOR_TYPE_TEMPERATURE,
     .unit = SENSOR_UNIT_CELSIUS,
     .mqtt_topic = "esp32/sensor_temperatura/habitacion_1",
@@ -19,7 +19,7 @@ sensor_t temperature_sensor_habitacion_1 = {
 };
 
 sensor_t temperature_sensor_habitacion_2 = {
-    .id = 2,
+    .id_sensor = 2,
     .type = SENSOR_TYPE_TEMPERATURE,
     .unit = SENSOR_UNIT_CELSIUS,
     .mqtt_topic = "esp32/sensor_temperatura/habitacion_2",

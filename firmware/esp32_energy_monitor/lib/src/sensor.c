@@ -29,7 +29,7 @@ const char *sensor_type_to_string(sensor_type_t type) {
 const char *sensor_unit_to_string(sensor_unit_t unit) {
     switch (unit) {
         case SENSOR_UNIT_CELSIUS:
-            return "celsios";
+            return "celsius";
         case SENSOR_UNIT_PERCENTAGE:
             return "porcentaje";
         case SENSOR_UNIT_PASCAL:

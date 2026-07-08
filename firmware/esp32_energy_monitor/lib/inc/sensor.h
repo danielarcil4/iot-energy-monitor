@@ -34,7 +34,7 @@ typedef struct {
 typedef esp_err_t (*sensor_read_fn_t)(sensor_t *sensor, sensor_data_t *data); // Definición del tipo de función para leer datos del sensor que se cree
 
 struct sensor_t {
-    uint8_t id;             // Identificador único del sensor
+    uint8_t id_sensor;             // Identificador único del sensor
     sensor_type_t type;     // Tipo de sensor (temperatura, humedad, etc.)
     sensor_unit_t unit;     // Unidad de medida del sensor (Celsius, porcentaje, etc.)
     const char *mqtt_topic; // Tema MQTT al que se publicarán los datos del sensor
