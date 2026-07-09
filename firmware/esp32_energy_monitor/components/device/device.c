@@ -16,15 +16,15 @@ data_device_t init_data_device(void) {
     data_device_t info_temporal = {0};
 
     // 1. Leer la MAC (guarda 6 bytes numéricos)
-    esp_read_mac(info_temporal.id, ESP_MAC_WIFI_STA);
+    esp_read_mac(info_temporal.id_device, ESP_MAC_WIFI_STA);
     
     // 2. Verificar si el nombre tiene el valor por defecto de Kconfig
     // NOTA: Reemplaza "nombre_por_defecto" por el valor 'default' exacto que pusiste en tu Kconfig
     if (strcmp(CONFIG_NAME, "nombre_del_dispositivo") == 0) {
         
-        // El último byte de la MAC (info_temporal.id[5]) contiene los dos últimos caracteres hexadecimales.
+        // El último byte de la MAC (info_temporal.id_device[5]) contiene los dos últimos caracteres hexadecimales.
         // Usamos snprintf para formatear el texto seguro "dispositivo_XX" (necesita mínimo 10 bytes de espacio)
-        snprintf(info_temporal.name, sizeof(info_temporal.name), "dispositivo_%02X", info_temporal.id[5]);
+        snprintf(info_temporal.name, sizeof(info_temporal.name), "dispositivo_%02X", info_temporal.id_device[5]);
         
     } else {
         // Si el usuario sí configuró un nombre en el Kconfig, usamos ese

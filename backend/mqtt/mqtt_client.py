@@ -1,8 +1,8 @@
 
 from typing import Any
 import paho.mqtt.client as mqtt
-from .database import save_reading, parse_json_payload
-from .config import MQTT_BROKER_HOST, MQTT_BROKER_PORT, MQTT_TOPICS
+from backend.database.database import save_reading, parse_json_payload
+from ..config import MQTT_BROKER_HOST, MQTT_BROKER_PORT, MQTT_TOPICS
 
 def on_connect(client: mqtt.Client, userdata: Any, flags: dict[str, Any], rc: int) -> None:
     if rc == 0:

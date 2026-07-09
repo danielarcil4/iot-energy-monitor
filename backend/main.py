@@ -1,11 +1,12 @@
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
-from ..mqtt_client import build_client
-from ..database import initialize_database
-from ..config import MQTT_BROKER_HOST, MQTT_BROKER_PORT
-from routes.measurments import router as router_measurment
-from routes.devices import router as router_device
-from routes.health import router as router_health
+from .mqtt.mqtt_client import build_client
+from backend.database.database import initialize_database
+from .config import MQTT_BROKER_HOST, MQTT_BROKER_PORT
+from .api.routes.measurments import router as router_measurment
+from .api.routes.devices import router as router_device
+from .api.routes.health import router as router_health
+from .services.average import router as router_average
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -28,6 +29,7 @@ app = FastAPI(lifespan=lifespan)
 app.include_router(router_measurment)
 app.include_router(router_device)
 app.include_router(router_health)
+app.include_router(router_average)
 
 @app.get("/")
 def read_root():

@@ -1,6 +1,5 @@
 from fastapi import APIRouter
-from ...database import get_measurements, get_latest_measurement
-
+from backend.database.measurments import get_measurements, get_latest_measurement
 router = APIRouter()
 
 @router.get("/measurements")

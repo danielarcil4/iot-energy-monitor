@@ -1,6 +1,7 @@
 #include "sensor.h"
 #include <time.h>
 #include "temp_sensor.h"
+#include "humidity_sensor.h"
 
 void get_time(char *time_buffer) {
     time_t now = time(NULL);
@@ -44,6 +45,7 @@ const char *sensor_unit_to_string(sensor_unit_t unit) {
 sensor_t *sensors[] = {
     &temperature_sensor_habitacion_1,
     &temperature_sensor_habitacion_2,
+    &humidity_sensor_sala,
 };
 
 const size_t sensors_count = sizeof(sensors) / sizeof(sensors[0]);

@@ -7,10 +7,10 @@
 - Guardar información de varios sensores.
 - Separar responsabilidades de las funciones wifi y mqtt.
 - Agregar un identificador para el publicador 
+- Crear uno o dos sensores más.
 
 ## En progreso
 - FastAPI 
 
 ## Pendiente a futuro
-- Crear uno o dos sensores más.
 - Migracion de SQLite a PostgreSQL.

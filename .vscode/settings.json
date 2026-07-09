@@ -3,5 +3,6 @@
     "cmake.sourceDirectory": "/home/daniel/Escritorio/iot-energy-monitor/firmware/esp32_energy_monitor",
     "idf.openOcdConfigs": [
         "board/esp32-wrover-kit-3.3v.cfg"
-    ]
+    ],
+    "python.analysis.typeCheckingMode": "basic"
 }

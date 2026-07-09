@@ -14,7 +14,7 @@ sensor_t temperature_sensor_habitacion_1 = {
     .id_sensor = 1,
     .type = SENSOR_TYPE_TEMPERATURE,
     .unit = SENSOR_UNIT_CELSIUS,
-    .mqtt_topic = "esp32/sensor_temperatura/habitacion_1",
+    .mqtt_topic = "esp32/sensor/temperatura/habitacion/1",
     .read = temperature_sensor_read,
 };
 
@@ -22,6 +22,6 @@ sensor_t temperature_sensor_habitacion_2 = {
     .id_sensor = 2,
     .type = SENSOR_TYPE_TEMPERATURE,
     .unit = SENSOR_UNIT_CELSIUS,
-    .mqtt_topic = "esp32/sensor_temperatura/habitacion_2",
+    .mqtt_topic = "esp32/sensor/temperatura/habitacion/2",
     .read = temperature_sensor_read,
 };

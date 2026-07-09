@@ -3,7 +3,9 @@ from dataclasses import dataclass
 
 @dataclass(frozen=True)
 class Sensor:
-    id_sensor: int          # identificador del sensor
+    id_dispositivo:str           # identificador del dispositivo (MAC)
+    dispositivo: str        # nombre del dispositivo
+    id_sensor: int   # identificador del sensor
     type: str        # tipo de sensor ejemplo: Temperatura, Humedad, etc.
     data: float      # valor del sensor
     unit: str        # unidad de medida

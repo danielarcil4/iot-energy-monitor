@@ -4,7 +4,7 @@ MQTT_BROKER_HOST = os.getenv("MQTT_BROKER_HOST", "localhost")
 MQTT_BROKER_PORT = int(os.getenv("MQTT_BROKER_PORT", "1883"))
 MQTT_TOPICS = tuple(
     topic.strip()
-    for topic in os.getenv("MQTT_TOPICS", "esp32/sensor_temperatura/#").split(",")
+    for topic in os.getenv("MQTT_TOPICS", "esp32/sensor/#").split(",")
     if topic.strip()
 )
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

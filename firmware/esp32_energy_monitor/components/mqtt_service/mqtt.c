@@ -56,7 +56,7 @@ void mqtt_publish_task(void *pvParameters) {
             }
             snprintf(payload, sizeof(payload),
                     "{\"id_dispositivo\": \"%02X:%02X:%02X:%02X:%02X:%02X\", \"dispositivo\": \"%s\",\"id_sensor\": %d, \"type\": \"%s\", \"value\": \"%.2f\", \"unit\": \"%s\", \"timestamp\": \"%s\"}",
-                    dispositivo->id[0], dispositivo->id[1], dispositivo->id[2],dispositivo->id[3], dispositivo->id[4], dispositivo->id[5], 
+                    dispositivo->id_device[0], dispositivo->id_device[1], dispositivo->id_device[2],dispositivo->id_device[3], dispositivo->id_device[4], dispositivo->id_device[5], 
                     dispositivo->name,
                     sensor->id_sensor,
                     sensor_type_to_string(sensor->type),
