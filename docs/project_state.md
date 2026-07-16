@@ -8,9 +8,16 @@
 - Separar responsabilidades de las funciones wifi y mqtt.
 - Agregar un identificador para el publicador 
 - Crear uno o dos sensores más.
-
-## En progreso
 - FastAPI 
 
+## En progreso
+- Grafana (visualización de datos)
+
 ## Pendiente a futuro
+
+- Schemas
+- Docker Compose
 - Migracion de SQLite a PostgreSQL.
+- Autenticación JWT
+- WebSockets
+- AWS IoT Core

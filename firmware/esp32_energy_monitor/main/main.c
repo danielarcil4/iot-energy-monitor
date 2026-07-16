@@ -14,7 +14,7 @@ void app_main(void) {
     }
     ESP_ERROR_CHECK(ret);
     
-    // Iniciar Wi-Fi (este activará el MQTT automáticamente al conectar)
+    // Iniciar Wi-Fi 
     wifi_init_sta();
     // Iniciar MQTT
     mqtt_init();

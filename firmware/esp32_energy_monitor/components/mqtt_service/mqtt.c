@@ -5,6 +5,7 @@
 #include "esp_netif.h"
 #include "sensor.h"
 #include "device.h"
+#include "sntp_time.h"
 
 #include <stdio.h>
 #include <time.h>
@@ -37,7 +38,9 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
 static void wifi_ip_handler(void *handler_args, esp_event_base_t base, int32_t event_id, void *event_data){
     ip_event_got_ip_t *event = (ip_event_got_ip_t *) event_data;
     ESP_LOGI(TAG, "Conectado. Dirección IP: " IPSTR, IP2STR(&event->ip_info.ip));
-    // Iniciamos MQTT solo cuando ya tenemos IP
+    // Iniciar sntp
+    init_sntp();
+    // Iniciamos MQTT solo cuando ya tenemos IP y la hora
     esp_mqtt_client_start(client);
 }
 

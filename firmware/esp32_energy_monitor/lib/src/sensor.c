@@ -4,12 +4,13 @@
 #include "humidity_sensor.h"
 
 void get_time(char *time_buffer) {
-    time_t now = time(NULL);
+    time_t now;
     struct tm timeinfo;
-
+    time(&now);
     localtime_r(&now, &timeinfo);
 
-    strftime(time_buffer, SIZE_BUFFER_TIME, "%H:%M:%S", &timeinfo); 
+    // Esto guardará la fecha en formato ideal para bases de datos: YYYY-MM-DD HH:MM:SS
+    strftime(time_buffer, SIZE_BUFFER_TIME, "%Y-%m-%d %H:%M:%S", &timeinfo);
 }
 
 const char *sensor_type_to_string(sensor_type_t type) {

@@ -4,4 +4,5 @@ idf_component_register(SRCS "mqtt.c"
                                   mqtt
                                   lib
                                   esp_event
+                                  sntp_time
                                   esp_netif)

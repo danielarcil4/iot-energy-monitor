@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include "esp_err.h"
 
-#define SIZE_BUFFER_TIME 9 // Tamaño del buffer para la hora en formato HH:MM:SS
+#define SIZE_BUFFER_TIME 24 // Tamaño del buffer para la hora en formato HH:MM:SS
 
 typedef struct sensor_t sensor_t;
 
@@ -28,7 +28,7 @@ typedef enum {
 
 typedef struct {
     float value;                      // Valor del sensor 
-    char timestamp[SIZE_BUFFER_TIME]; // Hora en formato HH:MM:SS cuando se tomó la lectura del sensor
+    char timestamp[SIZE_BUFFER_TIME]; // tiempo en formato date:HH:MM:SS cuando se tomó la lectura del sensor
 } sensor_data_t; // Estructura para almacenar los datos del sensor
 
 typedef esp_err_t (*sensor_read_fn_t)(sensor_t *sensor, sensor_data_t *data); // Definición del tipo de función para leer datos del sensor que se cree
