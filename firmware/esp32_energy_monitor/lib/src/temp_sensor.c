@@ -1,6 +1,9 @@
 #include "temp_sensor.h"
 #include "esp_random.h"
 
+#define MQTT_TOPIC_HABITACION_1 "esp32/sensor/temperatura/habitacion/1"
+#define MQTT_TOPIC_HABITACION_2 "esp32/sensor/temperatura/habitacion/2"
+
 static esp_err_t temperature_sensor_read(sensor_t *sensor, sensor_data_t *data) {
     (void)sensor;
 
@@ -14,7 +17,7 @@ sensor_t temperature_sensor_habitacion_1 = {
     .id_sensor = 1,
     .type = SENSOR_TYPE_TEMPERATURE,
     .unit = SENSOR_UNIT_CELSIUS,
-    .mqtt_topic = "esp32/sensor/temperatura/habitacion/1",
+    .mqtt_topic = MQTT_TOPIC_HABITACION_1,
     .read = temperature_sensor_read,
 };
 
@@ -22,6 +25,6 @@ sensor_t temperature_sensor_habitacion_2 = {
     .id_sensor = 2,
     .type = SENSOR_TYPE_TEMPERATURE,
     .unit = SENSOR_UNIT_CELSIUS,
-    .mqtt_topic = "esp32/sensor/temperatura/habitacion/2",
+    .mqtt_topic = MQTT_TOPIC_HABITACION_2,
     .read = temperature_sensor_read,
 };

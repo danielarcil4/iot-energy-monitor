@@ -1,7 +1,8 @@
 
 from typing import Any
 import paho.mqtt.client as mqtt
-from backend.database.database import save_reading, parse_json_payload
+from backend.database.sensor_repository import save_reading
+from backend.mqtt.mqtt_parser import parse_json_payload_sensor
 from ..config import MQTT_BROKER_HOST, MQTT_BROKER_PORT, MQTT_TOPICS
 
 def on_connect(client: mqtt.Client, userdata: Any, flags: dict[str, Any], rc: int) -> None:
@@ -16,7 +17,7 @@ def on_connect(client: mqtt.Client, userdata: Any, flags: dict[str, Any], rc: in
 
 def on_message(client: mqtt.Client, userdata: Any, message: mqtt.MQTTMessage) -> None:
     payload = message.payload.decode("utf-8", errors="replace")
-    reading = parse_json_payload(payload)
+    reading = parse_json_payload_sensor(payload)
 
     if reading is None:
         print(f"Mensaje ignorado en {message.topic}: {payload}")
@@ -26,7 +27,7 @@ def on_message(client: mqtt.Client, userdata: Any, message: mqtt.MQTTMessage) ->
     print(
         "Lectura guardada: "
         f"Tipo de sensor: {reading.type}, "
-        f"Valor: {reading.data}, "
+        f"Valor: {reading.value}, "
         f"Unidad: {reading.unit}, "
         f"Timestamp: {reading.timestamp}"
     )

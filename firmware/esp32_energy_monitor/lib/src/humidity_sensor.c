@@ -1,6 +1,8 @@
 #include "humidity_sensor.h"
 #include "esp_random.h"
 
+#define MQTT_TOPIC_SALA "esp32/sensor/humedad/sala"
+
 static esp_err_t humidity_sensor_read(sensor_t *sensor, sensor_data_t *data) {
     (void)sensor;
 
@@ -14,6 +16,6 @@ sensor_t humidity_sensor_sala = {
     .id_sensor = 3,
     .type = SENSOR_TYPE_HUMIDITY,
     .unit = SENSOR_UNIT_PERCENTAGE,
-    .mqtt_topic = "esp32/sensor/humedad/sala",
+    .mqtt_topic = MQTT_TOPIC_SALA,
     .read = humidity_sensor_read,
 };

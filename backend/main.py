@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
 from .mqtt.mqtt_client import build_client
-from backend.database.database import initialize_database
+from backend.database.sensor_repository import initialize_database
 from .config import MQTT_BROKER_HOST, MQTT_BROKER_PORT
 from .api.routes.measurments import router as router_measurment
 from .api.routes.devices import router as router_device

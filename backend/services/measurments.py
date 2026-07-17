@@ -17,11 +17,11 @@ def get_measurements(database_path: str = DATABASE_PATH) -> list[dict[str, Any]]
 
         return [
             {
-                "id_sensor": measurement[3],
-                "type": measurement[4],
-                "data": measurement[5],
-                "unit": measurement[6],
-                "timestamp": measurement[7],
+                "id_sensor": measurement[1],
+                "type": measurement[2],
+                "data": measurement[3],
+                "unit": measurement[4],
+                "timestamp": measurement[5],
             }
             for measurement in measurements
         ]
@@ -42,9 +42,9 @@ def get_latest_measurement(database_path: str = DATABASE_PATH) -> dict[str, Any]
             return None
         
         return {
-            "id_sensor": latest_measurement[3],
-            "type": latest_measurement[4],
-            "data": latest_measurement[5],
-            "unit": latest_measurement[6],
-            "timestamp": latest_measurement[7],
+            "id_sensor": latest_measurement[1],
+            "type": latest_measurement[2],
+            "data": latest_measurement[3],
+            "unit": latest_measurement[4],
+            "timestamp": latest_measurement[5],
         }

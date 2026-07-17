@@ -45,28 +45,49 @@ static void wifi_ip_handler(void *handler_args, esp_event_base_t base, int32_t e
 }
 
 void mqtt_publish_task(void *pvParameters) {
-    const data_device_t *dispositivo = get_data_device();
+    const device_identity_t *identity = get_device_identity();
+    const char *device_topic = get_mqtt_topic();
     char payload[256];
-    sensor_data_t data;
 
     while (1) {
+        const device_status_t *status = get_device_status();
+        snprintf(payload, sizeof(payload),
+                    "{\"id dispositivo\": \"%02X:%02X:%02X:%02X:%02X:%02X\", \"dispositivo\": \"%s\", \"status\": \"%s\", \"uptime\": \"%ld\", \"wifi rssi\": \"%d\", \"free heap\": \"%ld\", \"Numero de mensajes\": \"%ld\"}",
+                    identity->id_device[0],   // primer byte del id 
+                    identity->id_device[1],   // segundo byte del id 
+                    identity->id_device[2],   // tercer byte del id 
+                    identity->id_device[3],   // cuarto byte del id 
+                    identity->id_device[4],   // quinto byte del id 
+                    identity->id_device[5],   // sexto byte del id 
+                    identity->name,           // nombre del dispositivo
+                    "online",                 // status del dispositivo online o offline
+                    status->uptime,           // tiempo de encendido del dispositivo
+                    status->wifi_rssi,        // decibeles del wifi
+                    status->free_heap,        // cantidad de memoria libre en bytes
+                    status->messages_sent);   // cantidad de mensajes enviados
+
+        esp_mqtt_client_publish(client, device_topic, payload, 0, 1, 0);
+        
+        //limpiamos payload
+        memset(payload, 0x00, sizeof(payload));
+
         for (size_t i = 0; i < sensors_count; i++) {
             sensor_t *sensor = sensors[i];
+            sensor_data_t data;
 
             if (sensor->read(sensor, &data) != ESP_OK) {
                 ESP_LOGE(TAG, "Error leyendo sensor: %s", sensor_type_to_string(sensor->type));
                 continue;
             }
             snprintf(payload, sizeof(payload),
-                    "{\"id_dispositivo\": \"%02X:%02X:%02X:%02X:%02X:%02X\", \"dispositivo\": \"%s\",\"id_sensor\": %d, \"type\": \"%s\", \"value\": \"%.2f\", \"unit\": \"%s\", \"timestamp\": \"%s\"}",
-                    dispositivo->id_device[0], dispositivo->id_device[1], dispositivo->id_device[2],dispositivo->id_device[3], dispositivo->id_device[4], dispositivo->id_device[5], 
-                    dispositivo->name,
+                    "{\"id_sensor\": %d, \"type\": \"%s\", \"value\": \"%.2f\", \"unit\": \"%s\", \"timestamp\": \"%s\"}",
                     sensor->id_sensor,
                     sensor_type_to_string(sensor->type),
                     data.value,
                     sensor_unit_to_string(sensor->unit),
                     data.timestamp); 
 
+            // Suscripcion a los topicos para el envio de datos
             esp_mqtt_client_publish(client, sensor->mqtt_topic, payload, 0, 1, 0);
         }
 

@@ -7,7 +7,7 @@ def get_data_device(database_path: str = DATABASE_PATH) -> list[dict[str, Any]] 
     with sqlite3.connect(database_path) as conn:
         cursor = conn.execute(
             """
-            SELECT * FROM sensor_data 
+            SELECT * FROM identity_data 
             ORDER BY timestamp DESC
             LIMIT 10
             """

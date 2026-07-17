@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from backend.database.data_device import get_data_device
+from backend.services.data_device import get_data_device
 
 router = APIRouter()
 
